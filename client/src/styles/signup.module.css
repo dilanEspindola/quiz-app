@@ -1,0 +1,25 @@
+.formContainer {
+  box-shadow: 0 5px 15px -1px #430a95;
+}
+
+@media (min-width: 320px) and (max-width: 599px) {
+  .formContainer {
+    width: calc(100% - 50px);
+  }
+  .noAccountBtnRegister {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .btnGoLogin {
+    order: 2;
+  }
+  .noAccountBtnRegister button {
+    width: 100%;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+  .formContainer {
+    width: 50%;
+  }
+}

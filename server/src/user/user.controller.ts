@@ -1,4 +1,13 @@
-import { Controller, Get, HttpException, HttpStatus } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Put,
+  UseInterceptors,
+  UploadedFile,
+} from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "src/models";
 import { UserService } from "./user.service";
 
@@ -19,4 +28,8 @@ export class UserController {
       );
     }
   }
+
+  @Put("user/:id")
+  @UseInterceptors(FileInterceptor("photo"))
+  async editUserImage(@UploadedFile() photo: Express.Multer.File) {}
 }

@@ -9,7 +9,7 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty({ message: "password is required" })
-  @MinLength(6)
+  @MinLength(6, { message: "PASSWORD_MUST_BE_AT_LEAST_6_CHARACTERS" })
   password: string;
 
   photo: string;

@@ -1,27 +1,28 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { InputError } from "@/components/formErrors";
 import { useAuth } from "@/hooks";
 import { PUBLIC_ROUTES } from "@/routes";
 
-import styles from "@/styles/signup.module.css";
-
-interface IRegisterFormData {
+interface ILoginFormData {
   username: string;
-  email: string;
   password: string;
 }
 
-export const RegisterForm = () => {
+import styles from "@/styles/signup.module.css";
+
+export const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IRegisterFormData>();
+  } = useForm<ILoginFormData>();
   const { registerUser } = useAuth();
+  const router = useRouter();
 
-  const handleData = (data: IRegisterFormData) => {
-    registerUser(data);
+  const handleData = (data: ILoginFormData) => {
+    console.log(data);
   };
 
   return (
@@ -30,7 +31,7 @@ export const RegisterForm = () => {
           ${styles.formContainer}`}
     >
       <form className="flex flex-col" onSubmit={handleSubmit(handleData)}>
-        <h1 className="text-3xl text-white mb-10">Create account</h1>
+        <h1 className="text-3xl text-white mb-10">Login</h1>
         <div className="flex flex-col justify-between mb-3 gap-5">
           <div className="flex flex-col gap-3">
             <label htmlFor="username" className="text-white">
@@ -46,19 +47,6 @@ export const RegisterForm = () => {
             {errors.username && (
               <InputError messageError="Username is required" />
             )}
-          </div>
-          <div className="flex flex-col gap-3">
-            <label htmlFor="email" className="w-2/12 text-white">
-              Email:
-            </label>
-            <input
-              type="email"
-              className="w-full bg-transparent outline-none outline-slate-400 border-none p-2 rounded-md
-              focus:outline-violet-300 duration-200 text-white"
-              id="email"
-              {...register("email", { required: true })}
-            />
-            {errors.email && <InputError messageError="Email is required" />}
           </div>
           <div className="flex gap-3 flex-col">
             <label htmlFor="password" className="w-2/12 text-white">
@@ -79,16 +67,16 @@ export const RegisterForm = () => {
             className={`flex justify-between items-center mt-10 ${styles.noAccountBtnRegister}`}
           >
             <Link
-              href={PUBLIC_ROUTES.LOGIN}
+              href={PUBLIC_ROUTES.SIGNUP}
               className={`text-white uppercase hover:text-slate-300 duration-300 ${styles.btnGoLogin}`}
             >
-              Do you have an account?
+              Do you not have an account?
             </Link>
             <button
               className=" bg-gradient-to-br to-[#258aa3] from-[#6a38af] capitalize px-5 py-2 rounded-md
            text-white w-4/12 self-end hover:from-[#6a38af] hover:to-[#6a38af]"
             >
-              Register
+              Login
             </button>
           </div>
         </div>
