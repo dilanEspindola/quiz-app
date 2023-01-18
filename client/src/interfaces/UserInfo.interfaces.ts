@@ -16,3 +16,9 @@ export interface IUserRegister {
 export interface ResponseUserCreated {
   message: string;
 }
+
+export interface ResponseLogin {
+  user: User;
+}
+
+export type Login = Pick<User, "username" | "password">;

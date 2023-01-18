@@ -18,11 +18,11 @@ export const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormData>();
-  const { registerUser } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleData = (data: ILoginFormData) => {
-    console.log(data);
+    login(data);
   };
 
   return (

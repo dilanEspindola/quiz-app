@@ -21,6 +21,8 @@ export class AuthService {
   }
 
   async findUser(username: string): Promise<User> {
-    return await this.userRepository.findOneBy({ username: username });
+    const user = await this.userRepository.findOneBy({ username: username });
+
+    return user;
   }
 }

@@ -8,6 +8,7 @@ import {
 
 export const axiosConfig = axios.create({
   baseURL: process.env.NEXT_PUBLIC_URL,
+  withCredentials: true,
 });
 
 export const axiosInterceptors = () => {

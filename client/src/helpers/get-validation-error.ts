@@ -9,13 +9,15 @@ export const CODE_MATCHER = {
   PASSWORD_MUST_BE_AT_LEAST_6_CHARACTERS:
     "password must be at least 6 characters",
   UNEXPECTED_ERROR: "something went wrong",
+  USER_NOT_FOUND: "user does not exist",
+  INVALID_PASSWORD: "invalid password",
 };
 
 export const errorHandleHttp = (error: any) => {
   if (error instanceof AxiosError && error.response?.data) {
-    if (error.response.data?.message.length > 0)
+    if (Array.isArray(error.response.data?.message)) {
       return CODE_MATCHER[error.response.data.message[0] as OnlyKeys];
-
+    }
     return CODE_MATCHER[error.response.data?.message as OnlyKeys];
   }
 
