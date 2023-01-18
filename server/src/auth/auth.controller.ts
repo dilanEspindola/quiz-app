@@ -4,14 +4,17 @@ import {
   Post,
   Res,
   HttpException,
+  BadRequestException,
+  NotFoundException,
   HttpStatus,
   ValidationPipe,
+  UseGuards,
 } from "@nestjs/common";
 import { Response } from "express";
-import { CreateUserDto } from "./dto";
+import { CreateUserDto, LoginDto } from "./dto";
 import { AuthService } from "./auth.service";
 import { TypeORMError } from "typeorm";
-import { validationError } from "src/helpers";
+import { validationError, comparePassword, createToken } from "src/helpers";
 
 @Controller("auth")
 export class AuthController {
@@ -35,6 +38,34 @@ export class AuthController {
         "INTERNAL_SERVER_ERROR",
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+    }
+  }
+
+  @Post("login")
+  async login(@Body(ValidationPipe) loginData: LoginDto, @Res() res: Response) {
+    try {
+      const user = await this.authService.findUser(loginData.username);
+
+      if (!user) throw new NotFoundException("USER_NOT_FOUND");
+
+      const isValidPassword = await comparePassword(
+        loginData.password,
+        user.password,
+      );
+
+      if (!isValidPassword) throw new BadRequestException("INVALID_PASSWORD");
+
+      const payload = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+      };
+
+      const token = createToken(payload);
+
+      return res.status(HttpStatus.OK).json({ user, token });
+    } catch (error) {
+      console.log(error);
     }
   }
 }

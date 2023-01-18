@@ -6,16 +6,19 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "src/models";
 import { UserService } from "./user.service";
+import { AuthGuard } from "src/guard/auth.guard";
 
 @Controller("api")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get("users")
+  @UseGuards(AuthGuard)
   async getUsers(): Promise<User[]> {
     try {
       const users = await this.userService.findUsers();

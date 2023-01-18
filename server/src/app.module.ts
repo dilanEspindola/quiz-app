@@ -10,6 +10,7 @@ import {
 } from "./config/";
 import { AuthModule } from "./auth/auth.module";
 import { CloudinaryModule } from "./cloudinary/cloudinary.module";
+import { GuardModule } from "./guard/guard.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CloudinaryModule } from "./cloudinary/cloudinary.module";
     UserModule,
     AuthModule,
     CloudinaryModule,
+    GuardModule,
   ],
   controllers: [],
   providers: [],
