@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { getDataSourceName, TypeOrmModule } from "@nestjs/typeorm";
+import { PassportModule } from "@nestjs/passport";
 import { DataSource } from "typeorm";
 import { UserModule } from "./user/user.module";
 import {
@@ -29,10 +30,15 @@ import { GuardModule } from "./guard/guard.module";
     AuthModule,
     CloudinaryModule,
     GuardModule,
+    PassportModule.register({ session: true }),
   ],
   controllers: [],
   providers: [],
 })
 export class AppModule {
   constructor(private datasource: DataSource) {}
+
+  getDataSource() {
+    return this.datasource;
+  }
 }

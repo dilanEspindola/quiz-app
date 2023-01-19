@@ -6,18 +6,17 @@ import {
   Req,
   Res,
   HttpException,
-  BadRequestException,
-  NotFoundException,
   HttpStatus,
   ValidationPipe,
   UseGuards,
 } from "@nestjs/common";
 import { Request, Response } from "express";
-import { CreateUserDto, LoginDto } from "./dto";
+import { CreateUserDto } from "./dto";
 import { AuthService } from "./auth.service";
 import { TypeORMError } from "typeorm";
-import { validationError, comparePassword, createToken } from "src/helpers";
-import { AuthGuard } from "src/guard/auth.guard";
+import { validationError } from "src/helpers";
+import { User } from "src/models";
+import { LocalGuard } from "./helpers";
 
 @Controller("auth")
 export class AuthController {
@@ -45,46 +44,16 @@ export class AuthController {
   }
 
   @Post("login")
-  async login(
-    @Body(ValidationPipe) loginData: LoginDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const user = await this.authService.findUser(loginData.username);
-
-    if (!user) throw new NotFoundException("USER_NOT_FOUND");
-
-    const isValidPassword = await comparePassword(
-      loginData.password,
-      user.password,
-    );
-
-    if (!isValidPassword) throw new BadRequestException("INVALID_PASSWORD");
-
-    const payload = {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-    };
-
+  @UseGuards(LocalGuard)
+  async login(@Req() req: Request, @Res() res: Response) {
+    const user = req.user as User;
     user.password = null;
 
-    const token = createToken(payload);
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: "lax", //permite conectar entre dominios distintos
-      secure: true, //https
-      maxAge: 86400000, // 1 day
-    });
-    res.status(HttpStatus.OK).json({ user, token });
+    res.status(HttpStatus.OK).json({ user, auth: true });
   }
 
   @Get("logout")
-  @UseGuards(AuthGuard)
-  logout(@Req() req: Request, @Res() res: Response) {
-    if (req.cookies.token) {
-      res.clearCookie("token");
-      res.json({ messeage: "logout" });
-    }
+  logout(@Req() req: Request) {
+    req.logOut((err) => err);
   }
 }
