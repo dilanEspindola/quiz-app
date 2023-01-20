@@ -1,12 +1,9 @@
 import Cookies from "universal-cookie";
 
-const cookies = new Cookies();
-
-export const getCookie = () => {
+export const getCheckValidationCookie = () => {
   const cookie = new Cookies();
-  console.log(cookie.getAll());
 
-  return {
-    token: cookies.get("token", { doNotParse: true }),
-  };
+  if (!cookie.get("token")) return null;
+
+  return cookie.get("token");
 };

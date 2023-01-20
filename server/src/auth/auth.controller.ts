@@ -14,7 +14,7 @@ import { Request, Response } from "express";
 import { CreateUserDto } from "./dto";
 import { AuthService } from "./auth.service";
 import { TypeORMError } from "typeorm";
-import { validationError } from "src/helpers";
+import { validationError, createToken } from "src/helpers";
 import { User } from "src/models";
 import { LocalGuard } from "./helpers";
 
@@ -28,7 +28,7 @@ export class AuthController {
     @Res() res: Response,
   ) {
     try {
-      await this.authService.createUser(userData);
+      await this.authService.registerUser(userData);
 
       return res.status(HttpStatus.OK).json({ message: "USER_CREATED" });
     } catch (error) {
@@ -49,11 +49,21 @@ export class AuthController {
     const user = req.user as User;
     user.password = null;
 
-    res.status(HttpStatus.OK).json({ user, auth: true });
+    const payload = { id: user.id, username: user.username, email: user.email };
+    const token = createToken(payload);
+
+    res.cookie("token", token, {
+      secure: true,
+    });
+    res.status(HttpStatus.OK).json({ user });
   }
 
   @Get("logout")
   logout(@Req() req: Request) {
-    req.logOut((err) => err);
+    req.session.destroy((err) => console.log(err));
+
+    return {
+      message: "ok",
+    };
   }
 }

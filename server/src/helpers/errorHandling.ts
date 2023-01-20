@@ -7,6 +7,9 @@ export const validationError = (error: any) => {
     "Duplicate entry": "USERNAME_OR_EMAIL_ALREADY_EXISTS",
     "invalid token": "you must provide a valid token",
     "jwt must be provided": "there's not a token",
+    "jwt malformed": "invalid token",
+    "jwt expired": "invalid token",
+    USER_NOT_FOUND: "user not found",
   };
 
   if (error.includes("Duplicate entry")) {
@@ -14,5 +17,5 @@ export const validationError = (error: any) => {
     return codeMatcher[error];
   }
 
-  return codeMatcher[error];
+  return codeMatcher[error] ?? "oops something went wrong";
 };

@@ -4,7 +4,10 @@ import { IUserRegister, Login, ResponseUserCreated } from "@/interfaces";
 export const createUser = async (
   userDataRegister: IUserRegister
 ): Promise<ResponseUserCreated> => {
-  const response = await axiosConfig.post("auth/register", userDataRegister);
+  const response = await axiosConfig.post(
+    "api/auth/register",
+    userDataRegister
+  );
 
   const data: ResponseUserCreated = response.data;
 
@@ -12,7 +15,7 @@ export const createUser = async (
 };
 
 export const loginUser = async (userDataLogin: Login) => {
-  const response = await axiosConfig.post("auth/login", userDataLogin);
+  const response = await axiosConfig.post("api/auth/login", userDataLogin);
 
   const data = response.data;
 

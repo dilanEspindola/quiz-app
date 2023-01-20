@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { InputError } from "@/components/formErrors";
-import { useAuth } from "@/hooks";
+import { useAuth, useChangeInputType } from "@/hooks";
 import { PUBLIC_ROUTES } from "@/routes";
 
 import styles from "@/styles/signup.module.css";
@@ -19,6 +19,7 @@ export const RegisterForm = () => {
     formState: { errors },
   } = useForm<IRegisterFormData>();
   const { registerUser } = useAuth();
+  const { changeInputType, onChangeInputType } = useChangeInputType();
 
   const handleData = (data: IRegisterFormData) => {
     registerUser(data);
@@ -26,7 +27,7 @@ export const RegisterForm = () => {
 
   return (
     <div
-      className={`w-5/12 p-5 flex flex-col shadow-lg rounded-md bg-gradient-to-br from-[#32003B] to-[#430A95]
+      className={`w-8/12 p-5 shadow-lg rounded-md bg-gradient-to-br to-black from-[#221E2D]
           ${styles.formContainer}`}
     >
       <form className="flex flex-col" onSubmit={handleSubmit(handleData)}>
@@ -65,7 +66,7 @@ export const RegisterForm = () => {
               Password:
             </label>
             <input
-              type="password"
+              type={changeInputType}
               className="w-full bg-transparent outline-none outline-slate-400 border-none p-2 rounded-md
               focus:outline-violet-300 duration-200 text-white"
               id="password"
@@ -74,13 +75,24 @@ export const RegisterForm = () => {
             {errors.password && (
               <InputError messageError="Password is required" />
             )}
+            <div className="flex gap-2">
+              <label htmlFor="show-password-check" className="order-2">
+                show password
+              </label>
+              <input
+                type="checkbox"
+                id="show-password-check"
+                className="order-1"
+                onChange={onChangeInputType}
+              />
+            </div>
           </div>
           <div
             className={`flex justify-between items-center mt-10 ${styles.noAccountBtnRegister}`}
           >
             <Link
               href={PUBLIC_ROUTES.LOGIN}
-              className={`text-white uppercase hover:text-slate-300 duration-300 ${styles.btnGoLogin}`}
+              className={`text-white text-sm uppercase hover:text-slate-300 duration-300 ${styles.btnGoLogin}`}
             >
               Do you have an account?
             </Link>

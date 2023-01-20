@@ -1,7 +1,8 @@
 import { ReactNode, FC, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getCookie } from "@/helpers";
-import { PUBLIC_ROUTES, PRIVATE_ROUTES } from "@/routes";
+import { isExpired, decodeToken } from "react-jwt";
+import { getCheckValidationCookie } from "@/helpers";
+import { PUBLIC_ROUTES } from "@/routes";
 
 interface Props {
   children: ReactNode;
@@ -9,10 +10,14 @@ interface Props {
 
 export const AuthGuard: FC<Props> = ({ children }) => {
   const router = useRouter();
-  const token = getCookie().token;
+  const token = getCheckValidationCookie();
+  const isExpiredToken = isExpired(token);
 
   useEffect(() => {
-    if (!token) router.push(PUBLIC_ROUTES.LOGIN);
+    if (!token || isExpiredToken) {
+      router.replace(PUBLIC_ROUTES.LOGIN);
+      localStorage.removeItem("user");
+    }
   }, [router]);
 
   return <div>{children}</div>;

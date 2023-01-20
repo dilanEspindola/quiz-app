@@ -4,6 +4,7 @@ import {
   updateNotification,
   loadingNofication,
   errorNotifications,
+  getCheckValidationCookie,
 } from "@/helpers";
 
 export const axiosConfig = axios.create({

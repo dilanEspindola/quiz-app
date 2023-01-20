@@ -13,7 +13,9 @@ interface JwtExtended extends jwt.JwtPayload {
 }
 
 export const createToken = (payload: Payload): string => {
-  const token = jwt.sign(payload, process.env.JWT_SECRET);
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: "24h",
+  });
   return token;
 };
 

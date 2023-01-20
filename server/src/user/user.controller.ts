@@ -7,29 +7,25 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
-  UseGuards,
   ParseIntPipe,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "src/models";
 import { UserService } from "./user.service";
-import { AuthGuard } from "src/guard/auth.guard";
-import { AuthenticateGuard } from "src/auth/helpers";
+import { UserNotFoundException } from "./exceptions";
 
-@Controller("api")
+@Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get("users")
-  @UseGuards(AuthenticateGuard)
+  @Get("")
   async getUsers(): Promise<User[]> {
     try {
       const users = await this.userService.findUsers();
       return users;
     } catch (error) {
-      console.log(error);
       throw new HttpException(
-        "INTERNAL_SERVER_ERROR",
+        "something went wrong",
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -37,15 +33,13 @@ export class UserController {
 
   @Get("user/:id")
   async getUser(@Param("id", ParseIntPipe) id: number) {
-    try {
-      const user = await this.userService.findUserById(id);
+    const user = await this.userService.findUserById(id);
 
-      return user;
-    } catch (error) {
-      console.log(error.message);
+    if (!user) throw new UserNotFoundException();
 
-      throw new HttpException("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    delete user.password;
+
+    return user;
   }
 
   @Put("user/:id")

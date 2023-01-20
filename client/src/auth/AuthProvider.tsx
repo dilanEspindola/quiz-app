@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext";
 import { IUserRegister, Login } from "@/interfaces";
 import { createUser, loginUser } from "@/services";
 import { setUserLocalStorage } from "@/helpers";
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from "@/routes";
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -15,7 +16,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   const registerUser = async (userData: IUserRegister) => {
     try {
       await createUser(userData);
-      router.push("/login");
+      router.push(PUBLIC_ROUTES.LOGIN);
     } catch (error: any) {
       console.log(error);
     }
@@ -25,6 +26,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     try {
       const data = await loginUser(userData);
       setUserLocalStorage(data);
+      router.push(PRIVATE_ROUTES.HOME);
     } catch (error) {
       console.log(error);
     }

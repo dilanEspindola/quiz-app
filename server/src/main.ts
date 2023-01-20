@@ -1,18 +1,20 @@
 import { NestFactory } from "@nestjs/core";
+import { TypeormStore } from "connect-typeorm/";
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 import * as passport from "passport";
-import { TypeormStore } from "connect-typeorm/";
-import * as dayjs from "dayjs";
 import { AppModule } from "./app.module";
 import { Session } from "./models";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   const sessionRepository = app
     .get(AppModule)
     .getDataSource()
     .getRepository(Session);
+
+  app.setGlobalPrefix("api");
 
   app.enableCors({
     credentials: true,
@@ -27,7 +29,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: dayjs().add(2, "minutes").toDate(),
+        maxAge: 86400000,
       },
       store: new TypeormStore().connect(sessionRepository),
     }),
