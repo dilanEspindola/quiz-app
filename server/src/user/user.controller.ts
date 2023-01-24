@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   UploadedFile,
   ParseIntPipe,
+  Query,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "src/models";
@@ -34,6 +35,17 @@ export class UserController {
   @Get("user/:id")
   async getUser(@Param("id", ParseIntPipe) id: number) {
     const user = await this.userService.findUserById(id);
+
+    if (!user) throw new UserNotFoundException();
+
+    delete user.password;
+
+    return user;
+  }
+
+  @Get("user")
+  async getUserByUsername(@Query("username") username: string) {
+    const user = await this.userService.findUserByUsername(username);
 
     if (!user) throw new UserNotFoundException();
 
