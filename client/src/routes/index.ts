@@ -5,4 +5,6 @@ export const PUBLIC_ROUTES = {
 
 export const PRIVATE_ROUTES = {
   HOME: "/home",
+  LEADBOARD: "/home/leadboard",
+  SETTINGS: "/home/settings",
 };

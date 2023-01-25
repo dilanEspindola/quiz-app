@@ -6,7 +6,7 @@ export const setUserLocalStorage = (data: ResponseLogin) => {
   localStorage.setItem("user", JSON.stringify(data.user));
 };
 
-export const getUsernameFromLocalStorage = (): User => {
+export const getUser = (): User | null => {
   const user = JSON.parse(localStorage.getItem("user")!);
-  return user;
+  return user ?? null;
 };

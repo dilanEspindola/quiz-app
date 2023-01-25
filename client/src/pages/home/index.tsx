@@ -1,21 +1,14 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { NextPage } from "next";
-import { getUsernameFromLocalStorage } from "@/helpers";
 import { AuthGuard } from "@/guards";
-import { PUBLIC_ROUTES } from "@/routes";
+import { Sidebar } from "@/components/sidebar";
 
 const Home = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const user = getUsernameFromLocalStorage();
-    user
-      ? router.push(`home/${user.username}`)
-      : router.replace(PUBLIC_ROUTES.LOGIN);
-  }, []);
-
-  return;
+  return (
+    <AuthGuard>
+      <div>
+        <Sidebar />
+      </div>
+    </AuthGuard>
+  );
 };
 
 export default Home;

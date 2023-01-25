@@ -1,11 +1,15 @@
 import { useEffect } from "react";
-import { GetServerSideProps, NextPage } from "next";
+import { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { Sidebar } from "@/components/sidebar";
+import { Profile } from "@/components/home";
+import { AuthGuard } from "@/guards";
 import { axiosConfig } from "@/interceptors";
 import { User } from "@/interfaces";
-import { AuthGuard } from "@/guards";
 
-const HomeUser: NextPage<{ user: User }> = ({ user }) => {
+const HomeUser = ({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -16,8 +20,9 @@ const HomeUser: NextPage<{ user: User }> = ({ user }) => {
 
   return (
     <AuthGuard>
-      <div>
-        <h1>home user {user.username}</h1>
+      <div className="bg-background min-h-screen flex">
+        <Sidebar />
+        <Profile user={user} />
       </div>
     </AuthGuard>
   );
@@ -25,12 +30,14 @@ const HomeUser: NextPage<{ user: User }> = ({ user }) => {
 
 export default HomeUser;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<{ user: User }> = async ({
+  query,
+}) => {
   try {
     const response = await axiosConfig.get(
-      `api/users/user?username=${context.query.username}`
+      `api/users/user?username=${query.username}`
     );
-    const user = response.data;
+    const user: User = response.data;
 
     return {
       props: { user },
