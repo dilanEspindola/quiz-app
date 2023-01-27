@@ -7,10 +7,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#e2e8f0",
+        background: "#1A1823",
+        componentPages: "#16151C",
       },
       boxShadow: {
-        sidebar: "10px 0 20px -15px rgba(0, 0, 0, 0.3)",
+        sidebar: "10px 0 20px -20px rgba(0, 0, 0, 0.5)",
+        link: "0 5px 25px -8px rgba(215, 58, 254, 0.5)",
       },
     },
   },

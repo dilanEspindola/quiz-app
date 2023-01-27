@@ -6,4 +6,8 @@ export interface IUser {
   findUsers: () => Promise<User[]>;
   findUserByUsername: (username: string) => Promise<User>;
   findUserById: (id: number) => Promise<User>;
+  updateUserProfilePhoto: (
+    id: number,
+    photo: Express.Multer.File,
+  ) => Promise<User>;
 }

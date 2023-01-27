@@ -9,6 +9,7 @@ import {
   UploadedFile,
   ParseIntPipe,
   Query,
+  Patch,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "src/models";
@@ -56,5 +57,14 @@ export class UserController {
 
   @Put("user/:id")
   @UseInterceptors(FileInterceptor("photo"))
-  async editUserImage(@UploadedFile() photo: Express.Multer.File) {}
+  async editUserImage(
+    @UploadedFile() photo: Express.Multer.File,
+    @Param("id", ParseIntPipe) id: number,
+  ) {
+    await this.userService.updateUserProfilePhoto(id, photo);
+
+    return {
+      message: "PHOTO_UPDATED",
+    };
+  }
 }

@@ -15,13 +15,13 @@ export const Sidebar = () => {
   }, []);
 
   return (
-    <div className="h-screen flex items-center w-2/12 bg-white shadow-sidebar z-10">
-      <ul className="text-black flex flex-col justify-center items-center w-full gap-20">
+    <div className="h-screen flex items-center w-2/12 bg-[#0E0D14] shadow-sidebar z-10">
+      <ul className="text-white flex flex-col justify-center items-center w-full gap-20">
         <Link
           href={PRIVATE_ROUTES.HOME}
           className={
             router.asPath === PRIVATE_ROUTES.HOME
-              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] text-white px-10 py-3 rounded-full shadow-lg"
+              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] px-10 py-3 rounded-full shadow-link"
               : ""
           }
         >
@@ -31,7 +31,7 @@ export const Sidebar = () => {
           href={PRIVATE_ROUTES.LEADBOARD}
           className={
             router.asPath === PRIVATE_ROUTES.LEADBOARD
-              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] text-white px-10 py-3 rounded-full shadow-lg"
+              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] px-10 py-3 rounded-full shadow-link"
               : ""
           }
         >
@@ -41,7 +41,7 @@ export const Sidebar = () => {
           href={`${PRIVATE_ROUTES.HOME}/${username}`}
           className={
             router.asPath === `${PRIVATE_ROUTES.HOME}/${username}`
-              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] text-white px-10 py-3 rounded-full shadow-lg"
+              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] px-10 py-3 rounded-full shadow-link"
               : ""
           }
         >
@@ -51,7 +51,7 @@ export const Sidebar = () => {
           href={PRIVATE_ROUTES.SETTINGS}
           className={
             router.asPath === PRIVATE_ROUTES.SETTINGS
-              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] text-white px-10 py-3 rounded-full shadow-lg"
+              ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] px-10 py-3 rounded-full shadow-link"
               : ""
           }
         >

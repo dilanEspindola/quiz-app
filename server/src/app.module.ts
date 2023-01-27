@@ -11,7 +11,6 @@ import {
 } from "./config/";
 import { AuthModule } from "./auth/auth.module";
 import { CloudinaryModule } from "./cloudinary/cloudinary.module";
-import { GuardModule } from "./guard/guard.module";
 
 @Module({
   imports: [
@@ -29,7 +28,6 @@ import { GuardModule } from "./guard/guard.module";
     UserModule,
     AuthModule,
     CloudinaryModule,
-    GuardModule,
     PassportModule.register({ session: true }),
   ],
   controllers: [],

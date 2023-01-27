@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/sidebar";
 const Home = () => {
   return (
     <AuthGuard>
-      <div>
+      <div className="bg-background">
         <Sidebar />
       </div>
     </AuthGuard>

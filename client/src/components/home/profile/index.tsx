@@ -1,9 +1,17 @@
-import { useState, ChangeEvent, useEffect } from "react";
-import { AiOutlineUser, AiOutlineCamera } from "react-icons/ai";
-import { User } from "@/interfaces";
+import { useState, ChangeEvent } from "react";
 import Image from "next/image";
+import { AiOutlineUser, AiOutlineCamera } from "react-icons/ai";
+import {
+  useMutation,
+  MutationKey,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { User } from "@/interfaces";
+import { updatePhotoUseProfile } from "@/services";
+import { ModalEditProfile } from "./modal-edit-profile";
 
 import styles from "./profile.module.css";
+import { MiniLoader } from "@/components/loaders";
 
 interface Props {
   user: User;
@@ -11,10 +19,19 @@ interface Props {
 
 export const Profile = ({ user }: Props) => {
   const [showFile, setShowFile] = useState<string>();
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["updateUserProfilePhoto"],
+    mutationFn: updatePhotoUseProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user"]);
+    },
+  });
 
   const onFileChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.files?.length !== 0) {
       setShowFile(URL.createObjectURL(evt.target.files![0]) as string);
+      mutate(evt.target.files![0]);
     }
   };
 
@@ -23,7 +40,7 @@ export const Profile = ({ user }: Props) => {
   };
 
   return (
-    <div className="bg-white h-[450px] w-10/12 self-end p-5 rounded-tl-[30px] relative">
+    <div className="bg-componentPages 800 h-[450px] w-10/12 self-end rounded-tl-[30px] relative">
       {handleShowImage() ? (
         <div className={styles.imageContainer}>
           <Image
@@ -33,6 +50,7 @@ export const Profile = ({ user }: Props) => {
             height={500}
             className={`h-full ${styles.image}`}
           />
+          {isLoading && <MiniLoader />}
           <label htmlFor="file" className={styles.cameraIconWithImage}>
             <AiOutlineCamera />
           </label>
@@ -43,23 +61,35 @@ export const Profile = ({ user }: Props) => {
             className={`text-[80px] p-2 w-[90px] h-[90px] top-[-40px] left-[30px]
             bg-gray-400 rounded-full text-white ${styles.noPhoto}`}
           />
+          {isLoading && <MiniLoader />}
           <label htmlFor="file" className={styles.cameraIcon}>
             <AiOutlineCamera />
           </label>
         </div>
       )}
-      <div className="h-full flex flex-col pt-7">
+      <div className="h-full flex flex-col pl-[30px] py-5">
+        <label
+          htmlFor="my-modal"
+          className="btn self-end mr-16 border-2 border-green-300 px-5 py-2
+          text-green-300 rounded-md hover:bg-green-500 hover:border-green-500
+          hover:text-white transition-all ease-out duration-300"
+        >
+          Edit profile
+        </label>
         <input
           type="file"
           id="file"
           className="hidden"
           onChange={onFileChange}
         />
-        <h1 className="text-slate-900 text-lg">{user.username}</h1>
-        <div className="mt-20">
-          <h2 className="text-3xl text-black mb-5">Stats</h2>
-          <span className="text-lg text-slate-500">Score: 154564</span>
+        <div className="w-4/12 flex flex-col gap-16">
+          <h1 className="text-slate-100 text-lg ml-5">{user.username}</h1>
+          <div className="">
+            <h2 className="text-3xl text-slate-300 mb-5">Stats</h2>
+            <span className="text-lg text-slate-500">Score: 154564</span>
+          </div>
         </div>
+        <ModalEditProfile />
       </div>
     </div>
   );
