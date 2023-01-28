@@ -14,7 +14,8 @@ export class AuthenticateGuard implements CanActivate {
       const req = context.switchToHttp().getRequest<Request>();
       const token = req.cookies.token;
 
-      verifyToken(token);
+      if (!req.isAuthenticated) return false;
+      // verifyToken(token);
 
       return req.isAuthenticated();
     } catch (error) {

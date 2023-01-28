@@ -1,24 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { Sidebar } from "@/components/sidebar";
-import { Profile } from "@/components/home";
+import { Profile, NotMyProfile } from "@/components/home/profile";
 import { AuthGuard } from "@/guards";
 import { User } from "@/interfaces";
 import { getUserByUsername } from "@/services";
-import { useFetchUsername } from "@/hooks";
+import { useFetchUsername, useToken } from "@/hooks";
 import { LoaderPage } from "@/components/loaders";
+import { getCheckValidationCookie } from "@/helpers";
 
 const HomeUser = ({
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const { data, isLoading } = useFetchUsername(user.username);
+  const { tokenDecoded } = useToken(getCheckValidationCookie()) as any;
+  const [isValidateUser, setIsValidateUser] = useState(false);
 
   useEffect(() => {
     document.title = `App | ${user.username}`;
-
-    console.log(router.query.username);
+    if (tokenDecoded && tokenDecoded.username === user.username) {
+      setIsValidateUser(true);
+    }
   }, [router]);
 
   if (isLoading) return <LoaderPage />;
@@ -27,7 +31,11 @@ const HomeUser = ({
     <AuthGuard>
       <div className="bg-background min-h-screen flex">
         <Sidebar />
-        <Profile user={data} />
+        {isValidateUser ? (
+          <Profile user={data!} />
+        ) : (
+          <NotMyProfile user={user} />
+        )}
       </div>
     </AuthGuard>
   );

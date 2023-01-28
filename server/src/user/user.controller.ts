@@ -10,17 +10,20 @@ import {
   ParseIntPipe,
   Query,
   Patch,
+  UseGuards,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "src/models";
 import { UserService } from "./user.service";
 import { UserNotFoundException } from "./exceptions";
+import { AuthenticateGuard } from "src/auth/helpers/authenticate.guard";
 
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get("")
+  @UseGuards(AuthenticateGuard)
   async getUsers(): Promise<User[]> {
     try {
       const users = await this.userService.findUsers();

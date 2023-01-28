@@ -6,7 +6,6 @@
   height: 90px;
   border-radius: 100%;
   overflow: hidden;
-  cursor: pointer;
 }
 
 .iconContainer label {
@@ -43,7 +42,6 @@
   height: 90px;
   border-radius: 100%;
   overflow: hidden;
-  cursor: pointer;
 }
 
 .image:hover ~ .cameraIconWithImage {

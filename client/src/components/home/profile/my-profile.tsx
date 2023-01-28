@@ -1,17 +1,13 @@
 import { useState, ChangeEvent } from "react";
 import Image from "next/image";
 import { AiOutlineUser, AiOutlineCamera } from "react-icons/ai";
-import {
-  useMutation,
-  MutationKey,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { User } from "@/interfaces";
 import { updatePhotoUseProfile } from "@/services";
 import { ModalEditProfile } from "./modal-edit-profile";
+import { MiniLoader } from "@/components/loaders";
 
 import styles from "./profile.module.css";
-import { MiniLoader } from "@/components/loaders";
 
 interface Props {
   user: User;
@@ -42,7 +38,7 @@ export const Profile = ({ user }: Props) => {
   return (
     <div className="bg-componentPages 800 h-[450px] w-10/12 self-end rounded-tl-[30px] relative">
       {handleShowImage() ? (
-        <div className={styles.imageContainer}>
+        <div className={`${styles.imageContainer} cursor-pointer`}>
           <Image
             src={handleShowImage()}
             alt="image"
@@ -56,7 +52,7 @@ export const Profile = ({ user }: Props) => {
           </label>
         </div>
       ) : (
-        <div className={styles.iconContainer}>
+        <div className={`${styles.iconContainer} cursor-pointer`}>
           <AiOutlineUser
             className={`text-[80px] p-2 w-[90px] h-[90px] top-[-40px] left-[30px]
             bg-gray-400 rounded-full text-white ${styles.noPhoto}`}

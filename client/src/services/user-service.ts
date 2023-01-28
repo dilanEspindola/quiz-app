@@ -1,3 +1,4 @@
+import { QueryFunctionContext } from "@tanstack/react-query";
 import { axiosConfig } from "@/interceptors";
 import { IUserRegister, Login, ResponseUserCreated, User } from "@/interfaces";
 import { getUser } from "@/helpers";
