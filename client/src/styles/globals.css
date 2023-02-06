@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .input-edit-profile {
+    @apply flex flex-col gap-2;
+  }
+}

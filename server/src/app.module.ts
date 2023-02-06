@@ -11,6 +11,8 @@ import {
 } from "./config/";
 import { AuthModule } from "./auth/auth.module";
 import { CloudinaryModule } from "./cloudinary/cloudinary.module";
+import { QuestionModule } from "./question/question.module";
+import { TopicModule } from "./topic/topic.module";
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { CloudinaryModule } from "./cloudinary/cloudinary.module";
     AuthModule,
     CloudinaryModule,
     PassportModule.register({ session: true }),
+    QuestionModule,
+    TopicModule,
   ],
   controllers: [],
   providers: [],

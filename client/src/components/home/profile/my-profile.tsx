@@ -85,8 +85,8 @@ export const Profile = ({ user }: Props) => {
             <span className="text-lg text-slate-500">Score: 154564</span>
           </div>
         </div>
-        <ModalEditProfile />
       </div>
+      <ModalEditProfile user={user} />
     </div>
   );
 };
