@@ -18,13 +18,6 @@ export class Topic {
   @ManyToMany(() => Question)
   @JoinTable({
     name: "topics_questions",
-    //   joinColumn: {
-    //     name: "topic_id",
-    //   },
-    //   inverseJoinColumn: {
-    //     name: "question_id",
-    //   },
-    // })
   })
   questions: Question[];
 }

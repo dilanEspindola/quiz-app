@@ -1,4 +1,6 @@
 import { Body, Controller, Get, Post, ValidationPipe } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common/enums";
+import { HttpException } from "@nestjs/common/exceptions";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
 import { QuestionService } from "./question.service";
 
@@ -17,8 +19,6 @@ export class QuestionController {
   async createQuestion(
     @Body(ValidationPipe) createQuestion: CreateQuestionDto,
   ) {
-    console.log(createQuestion);
-
     const question = await this.questionService.createQuestion(createQuestion);
     return question;
   }
