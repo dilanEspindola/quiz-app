@@ -3,7 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Topic } from "src/models";
 import { ITopic } from "./topic";
-import { CreateTopicDto } from "./dtos/create-topic.dto";
+import { CreateTopicDto, UpdateTopicDto } from "./dtos";
+import { TopicNotFoundException } from "./exceptions/topic.eceptions";
 
 @Injectable()
 export class TopicService implements ITopic {
@@ -36,5 +37,27 @@ export class TopicService implements ITopic {
     });
 
     return await this.topicRepostory.save(topic);
+  }
+
+  async updateTopicById(id: number, updateTopicDto: UpdateTopicDto) {
+    const topic = await this.topicRepostory.findOneBy({ id });
+
+    if (!topic) throw new TopicNotFoundException();
+
+    return this.topicRepostory.save({ ...topic, name: updateTopicDto.name });
+  }
+
+  async deleteTopicById(id: number) {
+    const topic = await this.topicRepostory.delete(id);
+
+    if (topic.affected === 0) return null;
+
+    return "topic not found";
+  }
+
+  async deleteAllTopics() {
+    const topics = await this.topicRepostory.find();
+    await this.topicRepostory.remove(topics);
+    return "TOPICS_DELETED";
   }
 }

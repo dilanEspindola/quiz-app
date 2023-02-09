@@ -33,4 +33,16 @@ export class QuestionService implements IQuestion {
     });
     return await this.questionRespository.save(question);
   }
+
+  async deleteQuestionById(id: number): Promise<string | null> {
+    const question = await this.questionRespository.delete(id);
+    if (question.affected === 0) return null;
+    return "question deleted";
+  }
+
+  async deleteAllQuestions() {
+    const questions = await this.questionRespository.find();
+    await this.questionRespository.remove(questions);
+    return "QUESTIONS_DELETED";
+  }
 }

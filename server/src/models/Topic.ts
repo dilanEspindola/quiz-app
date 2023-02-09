@@ -15,7 +15,10 @@ export class Topic {
   @Column({ nullable: false })
   name: string;
 
-  @ManyToMany(() => Question)
+  @ManyToMany(() => Question, {
+    onDelete: "CASCADE",
+    cascade: ["insert", "remove", "update"],
+  })
   @JoinTable({
     name: "topics_questions",
   })

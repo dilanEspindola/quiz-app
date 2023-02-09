@@ -17,10 +17,16 @@ export class Question {
   @Column({ nullable: false })
   questionName: string;
 
-  @OneToMany(() => Answer, (answer) => answer.question)
+  @OneToMany(() => Answer, (answer) => answer.question, {
+    onDelete: "CASCADE",
+    cascade: ["insert", "remove", "update"],
+  })
   answer: Answer[];
 
-  @ManyToMany(() => Topic)
+  @ManyToMany(() => Topic, {
+    onDelete: "CASCADE",
+    cascade: ["insert", "remove", "update"],
+  })
   @JoinTable({
     name: "topics_questions",
   })
