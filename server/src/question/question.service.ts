@@ -5,6 +5,8 @@ import { Question } from "src/models";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
 import { IQuestion } from "./question";
 import { TopicService } from "src/topic/topic.service";
+import { QuestionNotFoundException } from "./exceptions/question.exceptiions";
+import { EditQuestionDto } from "./dtos/edit-question.dto";
 
 @Injectable()
 export class QuestionService implements IQuestion {
@@ -22,6 +24,14 @@ export class QuestionService implements IQuestion {
     return questions;
   }
 
+  async findQuestionById(id: number): Promise<Question> {
+    const question = await this.questionRespository.findOneBy({ id });
+
+    if (!question) throw new QuestionNotFoundException();
+
+    return question;
+  }
+
   async createQuestion(questionDto: CreateQuestionDto): Promise<Question> {
     const topics = await this.topicService.findTopicsByNames(
       questionDto.topics,
@@ -32,6 +42,16 @@ export class QuestionService implements IQuestion {
       topics: topics,
     });
     return await this.questionRespository.save(question);
+  }
+
+  async editQuestion(id: number, questionDto: EditQuestionDto) {
+    const question = await this.questionRespository.findOneBy({ id });
+    if (!question) throw new QuestionNotFoundException();
+
+    return await this.questionRespository.save({
+      ...question,
+      questionName: questionDto.questionName,
+    });
   }
 
   async deleteQuestionById(id: number): Promise<string | null> {

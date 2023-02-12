@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from "src/models";
+import { User } from "../models";
 import { IUser } from "./user";
-import { encriptPassoword } from "src/helpers";
+import { encriptPassoword } from "../helpers";
 import { CreateUserDto } from "./dto";
-import { CloudinaryService } from "src/cloudinary/cloudinary.service";
+import { CloudinaryService } from "../cloudinary/cloudinary.service";
 import { UserNotFoundException } from "./exceptions";
 
 @Injectable()

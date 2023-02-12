@@ -6,11 +6,13 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   ValidationPipe,
   HttpException,
   HttpStatus,
 } from "@nestjs/common";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
+import { EditQuestionDto } from "./dtos/edit-question.dto";
 import {
   QuestionNotFoundException,
   InvalidInputException,
@@ -28,11 +30,28 @@ export class QuestionController {
     return questions;
   }
 
+  @Get(":id")
+  async getQuestionById(@Param("id", ParseIntPipe) id: number) {
+    const question = await this.questionService.findQuestionById(id);
+
+    return question;
+  }
+
   @Post()
   async createQuestion(
     @Body(ValidationPipe) createQuestion: CreateQuestionDto,
   ) {
     const question = await this.questionService.createQuestion(createQuestion);
+
+    return question;
+  }
+
+  @Put(":id")
+  async editQuestion(
+    @Param("id", ParseIntPipe) id: number,
+    @Body(ValidationPipe) questionDto: EditQuestionDto,
+  ) {
+    const question = await this.questionService.editQuestion(id, questionDto);
 
     return question;
   }

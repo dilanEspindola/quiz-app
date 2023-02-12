@@ -25,6 +25,15 @@ export class TopicController {
     return topics;
   }
 
+  @Get(":id")
+  async getTopicById(@Param("id", ParseIntPipe) id: number) {
+    const topic = await this.topicService.findTopicById(id);
+
+    if (!topic) throw new TopicNotFoundException();
+
+    return topic;
+  }
+
   @Post()
   @UsePipes(new ValidationPipe())
   async createTopic(@Body(ValidationPipe) createTopic: CreateTopicDto) {
@@ -43,6 +52,7 @@ export class TopicController {
     @Body() data: UpdateTopicDto,
   ) {
     const topic = await this.topicService.updateTopicById(id, data);
+
     return topic;
   }
 

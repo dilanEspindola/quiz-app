@@ -23,7 +23,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get("")
-  @UseGuards(AuthenticateGuard)
+  // @UseGuards(AuthenticateGuard)
   async getUsers(): Promise<User[]> {
     try {
       const users = await this.userService.findUsers();

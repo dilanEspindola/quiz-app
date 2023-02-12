@@ -20,6 +20,12 @@ export class TopicService implements ITopic {
     return topics;
   }
 
+  async findTopicById(id: number): Promise<Topic> {
+    const topic = await this.topicRepostory.findOneBy({ id });
+
+    return topic;
+  }
+
   async findTopicsByNames(names: string[]): Promise<Topic[]> {
     const topics = await this.topicRepostory
       .createQueryBuilder("topic")
