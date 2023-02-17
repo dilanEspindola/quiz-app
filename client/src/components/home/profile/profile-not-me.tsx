@@ -1,8 +1,6 @@
-import { useState, ChangeEvent } from "react";
 import Image from "next/image";
-import { AiOutlineUser, AiOutlineCamera } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
 import { User } from "@/interfaces";
-import { ModalEditProfile } from "./modal-edit-profile";
 
 import styles from "./profile.module.css";
 
@@ -11,18 +9,12 @@ interface Props {
 }
 
 export const NotMyProfile = ({ user }: Props) => {
-  const [showFile, setShowFile] = useState<string>();
-
-  const handleShowImage = (): string => {
-    return (user.photo as string) ?? showFile;
-  };
-
   return (
     <div className="bg-componentPages 800 h-[450px] w-10/12 self-end rounded-tl-[30px] relative">
-      {handleShowImage() ? (
+      {user.photo ? (
         <div className={styles.imageContainer}>
           <Image
-            src={handleShowImage()}
+            src={user.photo}
             alt="image"
             width={100}
             height={500}
@@ -45,7 +37,6 @@ export const NotMyProfile = ({ user }: Props) => {
             <span className="text-lg text-slate-500">Score: 154564</span>
           </div>
         </div>
-        <ModalEditProfile />
       </div>
     </div>
   );

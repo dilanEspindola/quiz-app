@@ -11,6 +11,7 @@ import {
   HttpException,
   HttpStatus,
 } from "@nestjs/common";
+import { UsePipes } from "@nestjs/common/decorators";
 import { CreateQuestionDto } from "./dtos/create-question.dto";
 import { EditQuestionDto } from "./dtos/edit-question.dto";
 import {
@@ -47,9 +48,10 @@ export class QuestionController {
   }
 
   @Put(":id")
+  @UsePipes(new ValidationPipe())
   async editQuestion(
     @Param("id", ParseIntPipe) id: number,
-    @Body(ValidationPipe) questionDto: EditQuestionDto,
+    @Body() questionDto: EditQuestionDto,
   ) {
     const question = await this.questionService.editQuestion(id, questionDto);
 

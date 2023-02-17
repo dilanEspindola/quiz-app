@@ -20,6 +20,7 @@ export const axiosInterceptors = () => {
     (error) => {
       const errorMessage = errorHandleHttp(error);
       errorNotifications(errorMessage);
+
       return Promise.reject(error);
     }
   );

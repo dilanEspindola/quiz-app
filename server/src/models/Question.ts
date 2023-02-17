@@ -17,6 +17,9 @@ export class Question {
   @Column({ nullable: false })
   questionName: string;
 
+  @Column()
+  correctAnswer: string;
+
   @OneToMany(() => Answer, (answer) => answer.question, {
     onDelete: "CASCADE",
     cascade: ["insert", "remove", "update"],

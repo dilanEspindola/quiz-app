@@ -18,14 +18,17 @@ export class QuestionService implements IQuestion {
 
   async findAllQuestions(): Promise<Question[]> {
     const questions = await this.questionRespository.find({
-      relations: { topics: true },
+      relations: { topics: true, answer: true },
     });
 
     return questions;
   }
 
   async findQuestionById(id: number): Promise<Question> {
-    const question = await this.questionRespository.findOneBy({ id });
+    const question = await this.questionRespository.findOne({
+      where: { id },
+      relations: { topics: true, answer: true },
+    });
 
     if (!question) throw new QuestionNotFoundException();
 
@@ -50,7 +53,8 @@ export class QuestionService implements IQuestion {
 
     return await this.questionRespository.save({
       ...question,
-      questionName: questionDto.questionName,
+      questionName: questionDto.questionName ?? question.questionName,
+      correctAnswer: questionDto.correctAnswer ?? question.correctAnswer,
     });
   }
 

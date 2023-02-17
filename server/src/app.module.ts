@@ -13,6 +13,7 @@ import { AuthModule } from "./auth/auth.module";
 import { CloudinaryModule } from "./cloudinary/cloudinary.module";
 import { QuestionModule } from "./question/question.module";
 import { TopicModule } from "./topic/topic.module";
+import { AnswerModule } from "./answer/answer.module";
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { TopicModule } from "./topic/topic.module";
     PassportModule.register({ session: true }),
     QuestionModule,
     TopicModule,
+    AnswerModule,
   ],
   controllers: [],
   providers: [],

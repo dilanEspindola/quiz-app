@@ -1,6 +1,11 @@
-import { IsNotEmpty } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class EditQuestionDto {
-  @IsNotEmpty({ message: "questionName is required" })
-  questionName: string;
+  @IsOptional()
+  @IsString()
+  questionName?: string;
+
+  @IsOptional()
+  @IsString()
+  correctAnswer?: string;
 }
