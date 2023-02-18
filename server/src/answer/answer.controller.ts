@@ -10,11 +10,11 @@ import {
   ValidationPipe,
   Param,
   ParseIntPipe,
-  NotFoundException,
 } from "@nestjs/common";
 import { AnswerPipe } from "./answer.pipe";
 import { AnswerService } from "./answer.service";
 import { CreateAnswerDto } from "./dtos";
+import { AnswerNotFound } from "./exceptions";
 
 @Controller("answers")
 export class AnswerController {
@@ -34,6 +34,15 @@ export class AnswerController {
     }
   }
 
+  @Get(":id")
+  async getAnswer(@Param("id", ParseIntPipe) id: number) {
+    const answer = await this.answerService.findAnswerById(id);
+
+    if (!answer) throw new AnswerNotFound();
+
+    return answer;
+  }
+
   @Post()
   @UsePipes(new ValidationPipe())
   async createAnswer(@Body(AnswerPipe) createAnswer: CreateAnswerDto) {
@@ -46,7 +55,7 @@ export class AnswerController {
   async deleteAnswer(@Param("id", ParseIntPipe) id: number) {
     const answer = await this.answerService.deleteAnswerById(id);
 
-    if (!answer) throw new NotFoundException("ANSWER_NOT_FOUND");
+    if (!answer) throw new AnswerNotFound();
 
     return answer;
   }

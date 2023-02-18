@@ -20,7 +20,8 @@ export const Sidebar = () => {
         <Link
           href={PRIVATE_ROUTES.HOME}
           className={
-            router.asPath === PRIVATE_ROUTES.HOME
+            router.asPath === PRIVATE_ROUTES.HOME ||
+            router.asPath.includes(`${PRIVATE_ROUTES.CATEGORY}`)
               ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] px-10 py-3 rounded-full shadow-link"
               : ""
           }

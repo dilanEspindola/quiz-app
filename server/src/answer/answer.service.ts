@@ -21,8 +21,15 @@ export class AnswerService implements IAnswer {
     return answers;
   }
 
-  findAnswerById(id: number): Promise<Answer> {
-    throw new Error("");
+  async findAnswerById(id: number): Promise<Answer> {
+    const answer = await this.answerRepository.findOne({
+      where: { id },
+      relations: {
+        question: true,
+      },
+    });
+
+    return answer;
   }
 
   async createAnswer(createAnswer: CreateAnswerDto): Promise<Answer> {

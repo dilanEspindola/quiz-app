@@ -21,7 +21,10 @@ export class TopicService implements ITopic {
   }
 
   async findTopicById(id: number): Promise<Topic> {
-    const topic = await this.topicRepostory.findOneBy({ id });
+    const topic = await this.topicRepostory.findOne({
+      where: { id },
+      relations: { questions: { answer: true } },
+    });
 
     return topic;
   }

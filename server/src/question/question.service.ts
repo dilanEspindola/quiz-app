@@ -43,6 +43,7 @@ export class QuestionService implements IQuestion {
     const question = this.questionRespository.create({
       questionName: questionDto.name,
       topics: topics,
+      correctAnswer: questionDto.correctAnswer,
     });
     return await this.questionRespository.save(question);
   }
