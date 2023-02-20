@@ -10,6 +10,7 @@ import {
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { ScoreProvider } from "@/context/score";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.dehydratedState}>
         <AuthProvider>
           <ToastContainer />
-          <Component {...pageProps} />
+          <ScoreProvider>
+            <Component {...pageProps} />
+          </ScoreProvider>
         </AuthProvider>
       </Hydrate>
     </QueryClientProvider>

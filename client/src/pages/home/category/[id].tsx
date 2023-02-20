@@ -4,14 +4,16 @@ import { axiosConfig } from "@/interceptors";
 import { Topic } from "@/interfaces/TopicInterfaces";
 import { AuthGuard } from "@/guards";
 import { Sidebar } from "@/components/sidebar";
+import { getQuestionByTopic } from "@/services";
 
 const Category = ({
   topic,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
 
-  const runQuestion = () => {
-    router.push(`/home/question/${topic.questions[0].id}`);
+  const runQuestion = async () => {
+    const questions = await getQuestionByTopic(topic.id);
+    router.push(`/home/question/${questions[0].id}`);
   };
 
   return (
