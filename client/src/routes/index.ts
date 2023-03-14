@@ -8,4 +8,5 @@ export const PRIVATE_ROUTES = {
   LEADBOARD: "/home/leadboard",
   SETTINGS: "/home/settings",
   CATEGORY: "/home/category",
+  QUESTIONS: "/home/questions/category",
 };

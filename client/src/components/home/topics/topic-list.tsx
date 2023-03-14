@@ -1,7 +1,5 @@
-import { axiosConfig } from "@/interceptors";
 import { Topic } from "@/interfaces/TopicInterfaces";
 import { PRIVATE_ROUTES } from "@/routes";
-import { GetStaticPaths, GetStaticProps } from "next";
 import Link from "next/link";
 
 interface Props {

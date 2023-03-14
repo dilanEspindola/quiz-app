@@ -1,0 +1,14 @@
+.questionScrollbar::-webkit-scrollbar {
+  width: 15px;
+  border-radius: 7px;
+  z-index: 500;
+}
+
+.questionScrollbar::-webkit-scrollbar-thumb {
+  background: rgb(49, 47, 78);
+  border-radius: 15px;
+}
+
+.questionScrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(32, 31, 44);
+}

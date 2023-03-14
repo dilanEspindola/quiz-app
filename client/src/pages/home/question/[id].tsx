@@ -3,8 +3,6 @@ import { axiosConfig } from "@/interceptors";
 import { Question as IQuestion } from "@/interfaces/QuestionInterface";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { useScore } from "@/context/score";
-import { getQuestionByTopic } from "@/services";
-import { Topic } from "@/interfaces/TopicInterfaces";
 import Link from "next/link";
 
 type AnswerCorrectOrNot = "YES" | "NO";

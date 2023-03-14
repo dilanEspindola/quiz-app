@@ -21,7 +21,8 @@ export const Sidebar = () => {
           href={PRIVATE_ROUTES.HOME}
           className={
             router.asPath === PRIVATE_ROUTES.HOME ||
-            router.asPath.includes(`${PRIVATE_ROUTES.CATEGORY}`)
+            router.asPath.includes(`${PRIVATE_ROUTES.CATEGORY}`) ||
+            router.asPath.includes(`${PRIVATE_ROUTES.QUESTIONS}`)
               ? "bg-gradient-to-r from-[#A40C55] to-[#D73AFE] px-10 py-3 rounded-full shadow-link"
               : ""
           }
