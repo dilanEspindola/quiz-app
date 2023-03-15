@@ -19,15 +19,22 @@ export const QuestionList = ({ questions }: Props) => {
   const modalRef = useRef<HTMLLabelElement>(null);
   const router = useRouter();
 
+  /**
+   * does scroll to the next question and if there is not anymore question
+   */
   const nextQuestion = () => {
     const el = questionContentRef.current;
     if (!el?.children[numElement]) return setIsFinishGame(true);
+
     el?.children[numElement].scrollIntoView({
       behavior: "smooth",
       inline: "nearest",
     });
   };
 
+  /**
+   * works when you've answered a question and then it runs this function
+   */
   const onChangeElement = () => {
     setisNextElement(() => true);
   };
@@ -35,15 +42,23 @@ export const QuestionList = ({ questions }: Props) => {
   useEffect(() => {
     if (isNextElement) {
       nextQuestion();
+
+      // add one unit to access the next children in the element
       setNumElement((prev) => prev + 1);
+
+      // restarts the state to be able to scroll to the next element
       setisNextElement(() => false);
     }
 
     if (isFinishGame) {
-      console.log("game ended");
+      // do something when you've answered all questions
     }
   }, [isNextElement]);
 
+  /**
+   * this useffect works for... when you've answered all questions, automaticallly open the modal
+   * runs when the isfinishGame state is in true
+   */
   useEffect(() => {
     modalRef.current?.click();
   }, [isFinishGame]);
@@ -55,12 +70,10 @@ export const QuestionList = ({ questions }: Props) => {
       </h1>
 
       {/* modal */}
-      {/* The button to open modal */}
       <label htmlFor="my-modal" className="btn hidden" ref={modalRef}>
         open modal
       </label>
 
-      {/* Put this part before </body> tag */}
       <input type="checkbox" id="my-modal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
@@ -76,11 +89,6 @@ export const QuestionList = ({ questions }: Props) => {
           >
             Go back
           </button>
-          {/* <div  className="modal-action">
-            <label htmlFor="my-modal" className="btn">
-              Yay!
-            </label>
-          </div> */}
         </div>
       </div>
 

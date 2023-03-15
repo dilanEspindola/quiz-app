@@ -16,6 +16,11 @@ export const Question = ({ question, nextQuestion }: Props) => {
   const [answers, setAnswers] = useState<Answer[]>();
   const { addPoint, restPoint } = useScore();
 
+  /**
+   * setTimeout => after 1 second, it'll run the next question(div)
+   * @param name it gets the answerName
+   * @return YES OR NO... it'll validate if the answer is correct or not and if it's correct will be return YES else NO
+   */
   const checkAnswer = (name: string) => {
     setTimeout(() => {
       nextQuestion();
