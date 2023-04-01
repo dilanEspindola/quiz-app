@@ -10,4 +10,5 @@ export interface IUser {
     id: number,
     photo: Express.Multer.File,
   ) => Promise<User>;
+  updateUserScore: (id: number, score: number) => Promise<User>;
 }

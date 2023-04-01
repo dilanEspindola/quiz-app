@@ -19,6 +19,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UserNotFoundValidateException();
     }
+
     const getPassw = await comparePassword(password, user.password);
     if (!getPassw) {
       throw new InvalidPasswordException();

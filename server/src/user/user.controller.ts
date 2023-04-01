@@ -11,11 +11,13 @@ import {
   Query,
   Patch,
   UseGuards,
+  Body,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { User } from "src/models";
 import { UserService } from "./user.service";
 import { UserNotFoundException } from "./exceptions";
+import { UpdateUserScoreDto } from "./dto";
 import { AuthenticateGuard } from "src/auth/helpers/authenticate.guard";
 
 @Controller("users")
@@ -69,5 +71,21 @@ export class UserController {
     return {
       message: "PHOTO_UPDATED",
     };
+  }
+
+  @Patch("user/:id/score")
+  async editUserScore(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() data: UpdateUserScoreDto,
+  ) {
+    const user = await this.userService.findUserById(id);
+
+    if (!user) throw new UserNotFoundException();
+
+    const scoreUpdated = await this.userService.updateUserScore(id, data.score);
+
+    delete scoreUpdated.password;
+
+    return scoreUpdated;
   }
 }

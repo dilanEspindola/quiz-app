@@ -20,6 +20,7 @@ export const Profile = ({ user }: Props) => {
     mutationKey: ["updateUserProfilePhoto"],
     mutationFn: updatePhotoUseProfile,
     onSuccess: () => {
+      // invalid queries allows to load new the data when something has changed... in this case the data of user
       queryClient.invalidateQueries(["user"]);
     },
   });
@@ -82,7 +83,7 @@ export const Profile = ({ user }: Props) => {
           <h1 className="text-slate-100 text-lg ml-5">{user.username}</h1>
           <div className="">
             <h2 className="text-3xl text-slate-300 mb-5">Stats</h2>
-            <span className="text-lg text-slate-500">Score: 154564</span>
+            <span className="text-lg text-slate-500">Score: {user.score}</span>
           </div>
         </div>
       </div>

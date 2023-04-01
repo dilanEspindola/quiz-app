@@ -4,6 +4,7 @@ export interface User {
   email: string;
   photo: string | null;
   password?: string;
+  score: number;
 }
 
 export interface IUserRegister {

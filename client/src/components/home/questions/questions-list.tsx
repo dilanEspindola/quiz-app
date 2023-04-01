@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useScore } from "@/context/score";
 import { Question as IQuestion } from "@/interfaces/QuestionInterface";
 import { Question } from "./question";
+import { updateUserScore } from "@/services";
 
 import styles from "./question.module.css";
 
@@ -20,7 +21,7 @@ export const QuestionList = ({ questions }: Props) => {
   const router = useRouter();
 
   /**
-   * does scroll to the next question and if there is not anymore question
+   * makes scroll to the next element(question) and if there is not anymore question finish the game
    */
   const nextQuestion = () => {
     const el = questionContentRef.current;
@@ -37,6 +38,11 @@ export const QuestionList = ({ questions }: Props) => {
    */
   const onChangeElement = () => {
     setisNextElement(() => true);
+  };
+
+  const sendScoreAndGoHome = async (score: number) => {
+    await updateUserScore(score);
+    router.replace("/home");
   };
 
   useEffect(() => {
@@ -85,13 +91,12 @@ export const QuestionList = ({ questions }: Props) => {
             className="border-2 border-green-300 px-5 py-2
           text-green-300 rounded-md hover:bg-green-500 hover:border-green-500
           hover:text-white transition-all ease-out duration-300 w-3/12"
-            onClick={() => router.replace("/home")}
+            onClick={() => sendScoreAndGoHome(score)}
           >
             Go back
           </button>
         </div>
       </div>
-
       {/* end modal */}
 
       <div

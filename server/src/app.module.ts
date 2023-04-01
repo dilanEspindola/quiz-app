@@ -14,6 +14,7 @@ import { CloudinaryModule } from "./cloudinary/cloudinary.module";
 import { QuestionModule } from "./question/question.module";
 import { TopicModule } from "./topic/topic.module";
 import { AnswerModule } from "./answer/answer.module";
+import { LeadboardModule } from "./leadboard/leadboard.module";
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { AnswerModule } from "./answer/answer.module";
     QuestionModule,
     TopicModule,
     AnswerModule,
+    LeadboardModule,
   ],
   controllers: [],
   providers: [],

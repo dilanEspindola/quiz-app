@@ -30,9 +30,9 @@ describe("UserController", () => {
       const users = userMock;
       console.log(users);
 
-      jest
-        .spyOn(userService, "findUsers")
-        .mockImplementation(async () => users);
+      // jest
+      //   .spyOn(userService, "findUsers")
+      //   .mockImplementation(async () => users);
     });
   });
 });

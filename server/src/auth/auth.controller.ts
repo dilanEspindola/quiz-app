@@ -43,6 +43,9 @@ export class AuthController {
     }
   }
 
+  /**
+   * I'm sending the token because of on mobile devices(app) i can't get the session
+   */
   @Post("login")
   @UseGuards(LocalGuard)
   async login(@Req() req: Request, @Res() res: Response) {
@@ -55,7 +58,7 @@ export class AuthController {
     res.cookie("token", token, {
       secure: true,
     });
-    res.status(HttpStatus.OK).json({ user });
+    res.status(HttpStatus.OK).json({ user, token });
   }
 
   @Get("logout")

@@ -16,4 +16,7 @@ export class User {
 
   @Column({ nullable: true })
   photo: string;
+
+  @Column({ default: 0 })
+  score: number;
 }

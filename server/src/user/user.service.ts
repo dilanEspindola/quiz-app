@@ -26,7 +26,13 @@ export class UserService implements IUser {
 
   async findUsers(): Promise<User[]> {
     const users = await this.userRepository.find({
-      select: { id: true, username: true, email: true, photo: true },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        photo: true,
+        score: true,
+      },
     });
     return users;
   }
@@ -50,5 +56,13 @@ export class UserService implements IUser {
     const { secure_url } = await this.cloudinaryService.uploadImage(photo);
 
     return await this.userRepository.save({ ...user, photo: secure_url });
+  }
+
+  async updateUserScore(id: number, score: number): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    const scoreUpdated = user.score + score;
+
+    return await this.userRepository.save({ ...user, score: scoreUpdated });
   }
 }
