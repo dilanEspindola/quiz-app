@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { axiosConfig } from "@/interceptors";
 import { Question as IQuestion } from "@/interfaces/QuestionInterface";
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetServerSidePropsType,
+  InferGetStaticPropsType,
+} from "next";
 import { useScore } from "@/context/score";
 import Link from "next/link";
 
@@ -9,7 +15,7 @@ type AnswerCorrectOrNot = "YES" | "NO";
 
 const Question = ({
   question,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [isCorrectAnswer, setIsCorrectAnswer] = useState<AnswerCorrectOrNot>();
   const { addPoint, restPoint, score } = useScore();
 
@@ -74,34 +80,45 @@ const Question = ({
 
 export default Question;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await axiosConfig.get<IQuestion[]>("/api/questions");
-  const questions = res.data;
-
-  const paths = questions.map((question) => ({
-    params: { id: question.id.toString() },
-  }));
+export const getServerSideProps: GetServerSideProps<{
+  question: IQuestion;
+}> = async ({ query }) => {
+  const res = await axiosConfig.get<IQuestion>(`/api/questions/${query.id}`);
+  const question = res.data;
 
   return {
-    paths,
-    fallback: false,
+    props: { question },
   };
 };
 
-export const getStaticProps: GetStaticProps<{ question: IQuestion }> = async (
-  ctx
-) => {
-  try {
-    const { params } = ctx;
-    const res = await axiosConfig.get<IQuestion>(
-      `/api/questions/${params?.id}`
-    );
-    const question = res.data;
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const res = await axiosConfig.get<IQuestion[]>("/api/questions");
+//   const questions = res.data;
 
-    return {
-      props: { question },
-    };
-  } catch (error) {
-    return { notFound: true };
-  }
-};
+//   const paths = questions.map((question) => ({
+//     params: { id: question.id.toString() },
+//   }));
+
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
+
+// export const getStaticProps: GetStaticProps<{ question: IQuestion }> = async (
+//   ctx
+// ) => {
+//   try {
+//     const { params } = ctx;
+//     const res = await axiosConfig.get<IQuestion>(
+//       `/api/questions/${params?.id}`
+//     );
+//     const question = res.data;
+
+//     return {
+//       props: { question },
+//     };
+//   } catch (error) {
+//     return { notFound: true };
+//   }
+// };
