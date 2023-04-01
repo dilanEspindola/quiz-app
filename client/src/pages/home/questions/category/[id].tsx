@@ -29,16 +29,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps<{
   questions: Question[];
 }> = async ({ params }) => {
-  const questions = await getQuestionByTopic(Number(params?.id));
+  try {
+    const questions = await getQuestionByTopic(Number(params?.id));
 
-  return {
-    props: { questions },
-  };
+    return {
+      props: { questions },
+    };
+  } catch (error) {
+    return { notFound: true };
+  }
 };

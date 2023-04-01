@@ -46,9 +46,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<{ topic: Topic }> = async ({
   params,
 }) => {
-  const topic = await getTopic(Number(params?.id));
+  try {
+    const topic = await getTopic(Number(params?.id));
 
-  return {
-    props: { topic },
-  };
+    return {
+      props: { topic },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 };
