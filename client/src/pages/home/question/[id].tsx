@@ -91,11 +91,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<{ question: IQuestion }> = async (
   ctx
 ) => {
-  const { params } = ctx;
-  const res = await axiosConfig.get<IQuestion>(`/api/questions/${params?.id}`);
-  const question = res.data;
+  try {
+    const { params } = ctx;
+    const res = await axiosConfig.get<IQuestion>(
+      `/api/questions/${params?.id}`
+    );
+    const question = res.data;
 
-  return {
-    props: { question },
-  };
+    return {
+      props: { question },
+    };
+  } catch (error) {
+    return { notFound: true };
+  }
 };
